@@ -23,14 +23,12 @@ class UserController extends Controller
         
         if($request->get('gymName')){
 
-            $id = rand();
-
-            DB::table('gyms')->insertGetId(
+            // $id = rand();
+			$id = DB::table('gyms')->insertGetId(
                 array(
-                    'Name' => $request->get('gymName'),
-                    'Code' => $id,
-                    'Price' => 50000
-                    )
+                      'name' => $request->get('gymName'),
+                    'price' => 0
+                )
             );
 
         } else {
@@ -40,13 +38,13 @@ class UserController extends Controller
         if($request->get('name')) {
 
             $user = new User;
-            $user->Name = $request->get('name');
-            $user->Phone = $request->get('phone');
-            $user->Address = $request->get('address');
-            $user->Email = $request->get('email');
-            $user->Password = $request->get('password');
-            $user->Code = rand();
-            $user->GymCode = $id;
+            $user->name = $request->get('name');
+            $user->phone = $request->get('phone');
+            $user->address = $request->get('address');
+            $user->email = $request->get('email');
+            $user->password = $request->get('password');
+            // $user->id = rand();
+            $user->gym_id = $id;
             $user->save();
 
             return response()->json([''], 204);
@@ -58,5 +56,17 @@ class UserController extends Controller
 
     public function badRequest(){
         return response()->json(['Bad request'], 400);
+    }
+
+    public function enter(Request $request)
+    {	
+    	// $users = new User;
+    	$mail= $request->email;
+    	// $data = $users::where('Name1','jhonathan');
+    	$users= User::where('Name1','jhonathan')->get();
+
+		return response()->json($users);
+
+		// return $mail;
     }
 }

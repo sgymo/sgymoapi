@@ -10,7 +10,7 @@ class Gym extends Model
 	protected $primary = 'Code';
     
     protected $fillable = [
-        'Code', 'Name', 'Price',
+        'id', 'name', 'price',
     ];
 
 }

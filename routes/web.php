@@ -17,4 +17,6 @@ Route::get('/', function () {
 
 Route::resource('users', 'UserController');
 
-Route::post('login', 'AuthController@login');
+// Route::post('login', 'AuthController@login');
+
+Route::post('enter', 'UserController@enter');

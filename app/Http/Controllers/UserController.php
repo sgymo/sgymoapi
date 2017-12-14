@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\User;
 use App\Gym;
@@ -32,7 +33,7 @@ class UserController extends Controller
             );
 
         } else {
-            return response()->json(['Bad request'], 400);
+            return response()->json(['Bad requet'], 400);
         }
 
         if($request->get('name')) {
@@ -42,7 +43,7 @@ class UserController extends Controller
             $user->phone = $request->get('phone');
             $user->address = $request->get('address');
             $user->email = $request->get('email');
-            $user->password = $request->get('password');
+            $user->password = ($request->get('password'));
             // $user->id = rand();
             $user->gym_id = $id;
             $user->save();
@@ -60,13 +61,38 @@ class UserController extends Controller
 
     public function enter(Request $request)
     {	
-    	// $users = new User;
-    	$mail= $request->email;
-    	// $data = $users::where('Name1','jhonathan');
-    	$users= User::where('Name1','jhonathan')->get();
+  //   	// $users = new User;
+  //   	$mail= $request->email;
+  //   	// $data = $users::where('Name1','jhonathan');
+  //   	$users= User::where('Name1','jhonathan')->get();
 
-		return response()->json($users);
+		// return response()->json($users);
 
-		// return $mail;
+		// // return $mail;
+    // 	if (Auth::check(['email' => $email, 'password' => $password,false, false])) {
+    //     $user = Auth::user();
+    //     $data = array(
+    //     "is_login" => true,
+    //     "name" => $user->name,
+    //     "api_token" => $user->api_token
+    //     );
+    //     return Response::json(
+    //         array(
+    //         'status' => true,
+    //         'data' => $data,
+    //         'msg' => "Login Successfully"
+    //         ), 200
+    //     );
+    // }
+    	$user = new User;
+    	if (Auth::attempt(["email" => $request->email, 'password' => $request->password])) {
+            // Authentication passed...
+    		$user = Auth::user();
+            return Response::json(
+            	array("api_token" => $user->api_token),200
+            );
+        } else{
+        	return response()->json(["Email or password incorrect"], 401);
+        }
     }
 }

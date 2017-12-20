@@ -19,4 +19,4 @@ Route::resource('users', 'UserController');
 
 // Route::post('login', 'AuthController@login');
 
-Route::post('enter', 'UserController@enter');
+Route::post('login', 'UserController@login');

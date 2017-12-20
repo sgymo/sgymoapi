@@ -59,7 +59,7 @@ class UserController extends Controller
         return response()->json(['Bad request'], 400);
     }
 
-    public function enter(Request $request)
+    public function login(Request $request)
     {	
   //   	// $users = new User;
   //   	$mail= $request->email;
@@ -88,8 +88,10 @@ class UserController extends Controller
     	if (Auth::attempt(["email" => $request->email, 'password' => $request->password])) {
             // Authentication passed...
     		$user = Auth::user();
-            return Response::json(
-            	array("api_token" => $user->api_token),200
+    		$mail= $request->email;
+    		$users= User::where('email',$mail)->get();
+    		$gym = Gym::where('id',($users->gym_id)->get())->get();
+			return Response()->json( ['api_token' => Hash::make(str_random(50)),$users,$gym],200
             );
         } else{
         	return response()->json(["Email or password incorrect"], 401);

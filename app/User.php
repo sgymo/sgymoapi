@@ -10,7 +10,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 class User extends Authenticatable
 {
     use HasApiTokens, Notifiable;
-    protected $primaryKey = 'Code';
+    protected $primaryKey = 'id';
     // protected $table = 'user';
     public $timestamps = false;
 
@@ -20,7 +20,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'id', 'gym_id', 'Name', 'phone','mmail','address',
+        'id', 'gym_id', 'Name', 'phone','mmail','address','remember_token'
     ];
 
     /**
@@ -29,6 +29,11 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password', 
     ];
+
+    public function gym()
+    {
+        return $this->belongsTo('App\Gym');
+    }
 }

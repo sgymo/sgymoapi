@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\User;
 use App\Gym;
 use DB;
+use Validator;
+
 
 class UserController extends Controller
 {
@@ -22,6 +24,21 @@ class UserController extends Controller
 
     public function store(Request $request){
         
+        $valid = Validator::make($request->all(),[
+        		'gymName' =>'required',
+        		'name' => 'required',
+	    		'email' => 'required',
+	    		'password' => 'required',
+	    		'phone' => 'required',
+	    	]);
+        if ($valid->fails()) {
+    		return response()->json([
+    			"code" => 400,
+    			"error" => "badRequest",
+    		],400);
+    		exit();
+	    }
+
         if($request->get('gymName')){
 
             // $id = rand();
@@ -48,53 +65,40 @@ class UserController extends Controller
             $user->gym_id = $id;
             $user->save();
 
-            return response()->json([''], 204);
+            return response()->json([
+            	'code' => '201',
+            	'response' => 'Create',
+            ], 201);
         } else {
             badRequest();
         }
     	//User::create($request->all());
     }  
-
-    public function badRequest(){
-        return response()->json(['Bad request'], 400);
-    }
-
     public function login(Request $request)
     {	
-  //   	// $users = new User;
-  //   	$mail= $request->email;
-  //   	// $data = $users::where('Name1','jhonathan');
-  //   	$users= User::where('Name1','jhonathan')->get();
 
-		// return response()->json($users);
+    	$valid = Validator::make($request->all(),[
+    		'email' => 'required',
+    		'password' => 'required',
+    	]);
 
-		// // return $mail;
-    // 	if (Auth::check(['email' => $email, 'password' => $password,false, false])) {
-    //     $user = Auth::user();
-    //     $data = array(
-    //     "is_login" => true,
-    //     "name" => $user->name,
-    //     "api_token" => $user->api_token
-    //     );
-    //     return Response::json(
-    //         array(
-    //         'status' => true,
-    //         'data' => $data,
-    //         'msg' => "Login Successfully"
-    //         ), 200
-    //     );
-    // }
-    	$user = new User;
-    	if (Auth::attempt(["email" => $request->email, 'password' => $request->password])) {
-            // Authentication passed...
-    		$user = Auth::user();
-    		$mail= $request->email;
-    		$users= User::where('email',$mail)->get();
-    		$gym = Gym::where('id',($users->gym_id)->get())->get();
-			return Response()->json( ['api_token' => Hash::make(str_random(50)),$users,$gym],200
-            );
-        } else{
-        	return response()->json(["Email or password incorrect"], 401);
-        }
+    	if ($valid->fails()) {
+    		return response()->json([
+    			"code" => 400,
+    			"error" => "badRequest",
+    		],400);
+    	}else{	
+	    	if (Auth::attempt(["email" => $request->email, 'password' => $request->password])) {
+	    		$user = Auth::user();
+	    		$gym = $user->gym;
+				return Response()->json( [$user],200
+	            );
+	        } else{
+	        	return response()->json([
+	        		"code" => 401,
+	        		"error" => "Email or password incorrect",
+	        ], 401);
+	        }
+	    }	    
     }
 }

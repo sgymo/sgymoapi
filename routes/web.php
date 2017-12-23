@@ -20,3 +20,6 @@ Route::resource('users', 'UserController');
 // Route::post('login', 'AuthController@login');
 
 Route::post('login', 'UserController@login');
+
+Route::get('gym/{gym}/customers', 'CustomerController@index');
+Route::get('gym/{gym}/customers/{customer}', 'CustomerController@show');

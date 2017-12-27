@@ -100,9 +100,9 @@ return response()->json($customers);
                         );
 
        return response()->json([
-           'code' => '201',
-           'response' => 'Create',
-       ], 201);
+           'code' => '200',
+           'response' => 'Ok',
+       ], 200);
    }
 
 }

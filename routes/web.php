@@ -12,7 +12,7 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+   return view('welcome');
 });
 
 Route::resource('users', 'UserController');
@@ -22,4 +22,9 @@ Route::resource('users', 'UserController');
 Route::post('login', 'UserController@login');
 
 Route::get('gym/{gym}/customers', 'CustomerController@index');
+
 Route::get('gym/{gym}/customers/{customer}', 'CustomerController@show');
+
+Route::post('gym/{gym}/customers/store', 'CustomerController@store');
+
+Route::put('gym/{gym}/customers/edit/{customer}', 'CustomerController@update');

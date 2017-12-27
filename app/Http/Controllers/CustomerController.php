@@ -92,30 +92,17 @@ return response()->json($customers);
            ],400);
            exit();
        }
-       
 
-       $customer = Customer::where('gym_id',$gym)->where('id',$customer)->get();
-       // $customer->gym_id = $gym;
-       $customer->card_id = $request->get('card_id');
-       $customer->finger = $request->get('finger');
-       $customer->name1 = $request->get('name1');
-       $customer->name2 = $request->get('name2');
-       $customer->last_name1 = $request->get('last_name1');
-       $customer->last_name2 = $request->get('last_name2');
-       $customer->born = $request->get('born');
-       $customer->address = $request->get('address');
-       $customer->gender = $request->get('gender');
-       $customer->email = $request->get('email');
-       $customer->phone = $request->get('phone');
-       $customer->user_login = $request->get('user_login');
-       // $customer->id = rand();
-       // $customer->gym_id = $id;
-       $customer->save();
+       $customer = Customer::where('gym_id',$gym)
+                    ->where('id',$customer)
+                    ->update(
+                        $request->all()
+                        );
 
        return response()->json([
            'code' => '201',
            'response' => 'Create',
        ], 201);
-   } 
+   }
 
 }

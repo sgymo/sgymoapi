@@ -20,10 +20,10 @@ class UserController extends Controller
 
     public function show($id){
     	return User::find($id);
-    }  
+    }
 
     public function store(Request $request){
-        
+
         $valid = Validator::make($request->all(),[
         		'gymName' =>'required',
         		'name' => 'required',
@@ -73,9 +73,9 @@ class UserController extends Controller
             badRequest();
         }
     	//User::create($request->all());
-    }  
+    }
     public function login(Request $request)
-    {	
+    {
 
     	$valid = Validator::make($request->all(),[
     		'email' => 'required',
@@ -87,7 +87,7 @@ class UserController extends Controller
     			"code" => 400,
     			"error" => "badRequest",
     		],400);
-    	}else{	
+    	}else{
 	    	if (Auth::attempt(["email" => $request->email, 'password' => $request->password])) {
 	    		$user = Auth::user();
 	    		$gym = $user->gym;
@@ -99,6 +99,6 @@ class UserController extends Controller
 	        		"error" => "Email or password incorrect",
 	        ], 401);
 	        }
-	    }	    
+	    }
     }
 }

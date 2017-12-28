@@ -28,3 +28,5 @@ Route::get('gym/{gym}/customers/{customer}', 'CustomerController@show');
 Route::post('gym/{gym}/customers/store', 'CustomerController@store');
 
 Route::put('gym/{gym}/customers/edit/{customer}', 'CustomerController@update');
+
+Route::pots('gym/{gym}/customers/edit/length/{customer}', 'LengthPartController@store');

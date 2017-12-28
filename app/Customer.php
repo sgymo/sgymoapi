@@ -14,7 +14,13 @@ class Customer extends Model
         'id', 'gym_id', 'card_id','finger','name1','name2','last_name1','last_name2', 'born','address','gender','email','phone'
     ];
 
-    public function length()
+    public function lengthpart()
     {
-    	return $this->hasMany('App\Length');
-    }}
+    	return $this->hasMany('App\Lengthpart');
+    }
+
+    public function gym()
+    {
+        return $this->belongsTo('App\Gym');
+    }
+}

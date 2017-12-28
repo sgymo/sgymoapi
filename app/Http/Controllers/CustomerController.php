@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Gym;
 use App\Customer;
+use App\Lengthpart;
 use DB;
 use Validator;
 
@@ -19,8 +20,9 @@ return response()->json($customers);
 
    public function show($gym, $customer)
    {
-   	$customers = Customer::where('gym_id',$gym)->where('id',$customer)->get();
-return response()->json($customers);
+   	$customers = Customer::where('id',$customer)->where('gym_id',$gym)->first();
+    $customers->lengthpart;
+    return response()->json($customers);
    }
 
    public function store(Request $request, $gym)

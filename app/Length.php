@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class lengths extends Model
+class Length extends Model
 {
     protected $primaryKey = 'id';
 
